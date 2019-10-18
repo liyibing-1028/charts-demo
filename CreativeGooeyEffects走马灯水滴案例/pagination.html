@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+		<title>Pagination</title>
+		<meta name="description" content="Practical examples of how to apply the Gooey effect by Lucas Bebber" />
+		<meta name="keywords" content="gooey, effect, inspiration, web design, example, css, svg, filter" />
+		<meta name="author" content="Lucas Bebber for Codrops" />
+		<link rel="stylesheet" type="text/css" href="css/pagination.css" />
+	</head>
+	<body class="demo-3">
+		<div class="container">
+			<div class="content">
+				<div class="pagination">
+					<div class="pagination-content">
+						<div class="pagination-item">
+							<img src="img/1.jpg" alt="image01" />
+						</div>
+						<div class="pagination-item">
+							<img src="img/2.jpg" alt="image02" />
+						</div>
+						<div class="pagination-item">
+							<img src="img/3.jpg" alt="image03" />
+						</div>
+						<div class="pagination-item">
+							<img src="img/4.jpg" alt="image04" />
+						</div>
+						<div class="pagination-item">
+							<img src="img/5.jpg" alt="image05" />
+						</div>
+					</div>
+					<div class="pagination-navigation">
+						<div class="pagination-current"></div>
+						<div class="pagination-dots">
+							<button class="pagination-dot">
+								<span class="pagination-number">1</span>
+							</button>
+							<button class="pagination-dot">
+								<span class="pagination-number">2</span>
+							</button>
+							<button class="pagination-dot">
+								<span class="pagination-number">3</span>
+							</button>
+							<button class="pagination-dot">
+								<span class="pagination-number">4</span>
+							</button>
+							<button class="pagination-dot">
+								<span class="pagination-number">5</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 水滴 -->
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800">
+			  <defs>
+			    <filter id="goo">
+			      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+			      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+			      <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+			    </filter>
+			  </defs>
+			</svg>
+
+		</div><!-- /container -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/TweenMax.min.js"></script>
+		<script src="js/pagination.js"></script>
+	</body>
+</html>

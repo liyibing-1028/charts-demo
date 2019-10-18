@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Map</title>
+  <style>
+    #map {
+      width: 800px;
+      height: 600px;
+      border: 1px solid;
+    }
+  </style>
+  <link rel="stylesheet" href="./node_modules/leaflet/dist/leaflet.css">
+  <script src="./node_modules/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    var map = L.map('map')
+
+    var positron = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+    }).addTo(map)
+
+    map.setView([0, 0], 1.5)
+
+    // let url = 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'
+    // let leafletMap = L.map('map', {
+    //   center: [0, 0],
+    //   zoom: 1.5,
+    //   dragging: false,
+    //   touchZoom: false,
+    //   scrollWheelZoom: false,
+    //   doubleClickZoom: false,
+    //   boxZoom: false,
+    //   keyboard: false
+    // })
+    // L.tileLayer(url, {}).addTo(leafletMap)
+  </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>渐变色+外发光飞线</title>
+    <style media="screen">
+        body {
+            background: #000;
+        }
+    </style>
+    <script src="../js/lodash.js"></script>
+    <script src="../js/util.js"></script>
+    <script src="canvasLine.js"></script>
+</head>
+<body>
+    <canvas id="container"></canvas>
+    <script>
+        function initCanvas () {
+          let canvas = document.getElementById('container');
+          canvas.width = 800;
+          canvas.height = 600;
+          return canvas;
+        }
+
+        const data = [
+          {
+            from: [100, 100],
+            to: [800, 200],
+            status: 2
+          },
+          {
+            from: [100, 100],
+            to: [100, 200],
+            status: 2
+          }
+        ];
+        let opt = {
+          canvas: initCanvas(),
+          duration: 1500,
+          delay: 500,
+          repeatCount: Infinity, // Infinity
+          width: 3,
+          color: [
+            [0, 'rgba(255, 255, 255, 0)'],
+            [0.9, 'rgba(5, 255, 234, 0.8)'],
+            [1, 'rgba(255, 255, 255, 0.9)']
+          ]
+        }
+        let line = new canvasLine(opt)
+        line.setData(data)
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvasText</title>
+    <style media="screen">
+      body {
+        background: #000;
+      }
+    </style>
+</head>
+<body>
+    <canvas id="container"></canvas>
+    <script>
+      let canvas = document.getElementById('container');
+      canvas.width = 800;
+      canvas.height = 600;
+
+      // 绘制圆
+      let context = canvas.getContext('2d');
+      context.lineWidth = 3;
+      context.strokeStyle = 'red';
+      context.fillStyle = 'yellow';
+      context.arc(100, 100, 20, 0, Math.PI * 2);
+      // context.stroke();
+      // context.fill();
+
+      context.strokeStyle = "#0000ff";
+      context.strokeRect(20, 20, 150, 100);
+      // context.moveTo(100, 300)
+      context.beginPath()
+      context.strokeStyle = 'green';
+      context.lineTo(200, 300)
+      context.stroke();
+      // context.lineTo(200, 300)
+    </script>
+</body>
+</html>

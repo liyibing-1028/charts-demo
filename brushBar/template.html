@@ -1,0 +1,40 @@
+<div class="brush-content-box">
+  <!-- nav -->
+  <div class="brush-icon-box">
+    <div class="brush-icon-left">
+      <div class="icon-left-box">
+        <i class="fa fa-globe" aria-hidden="true"></i>
+      </div>
+      <div class="text-left-box">
+        <p class="text-left-top">1214</p>
+        <p class="text-left-btm">社会舆情</p>
+      </div>
+    </div>
+    <div class="brush-icon-right">
+      <div class="icon-content-lef">
+        <div class="icon-content-lef-box"><i class="fa fa-exclamation-circle" aria-hidden="true"></i></div>
+        <div class="text-content-lef-box">
+          <p class="number-right-lef">1214</p>
+          <p class="text-right-lef">负面</p>
+        </div>
+      </div>
+      <div class="icon-content-rig">
+        <div id="pieChart"></div>
+        <div class="text-content-lef-box">
+          <p class="number-right-lef">新闻58%</p>
+          <p class="text-right-lef">负面主要来源</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- svg  brush-bar -->
+  <div id="svg">
+    <div id="tooltip"></div>
+  </div>
+  <!-- 时间切换部分 -->
+  <div class="brush-active-box">
+    <p @click="prevTime"><i class="fa fa-chevron-left" aria-hidden="true"></i> 前30天</p>
+    <p>{{timeStr}}</p>
+    <p @click="nextTime" :class="{'next-btn-disable':showNextBtn}">后30天 <i class="fa fa-chevron-right" aria-hidden="true"></i></p>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>完整案例</title>
+    <style media="screen">
+        body {
+            background: #000;
+        }
+        #line {
+          position: absolute;
+          top: 0;
+        }
+        #circle {
+          position: absolute;
+          top: 0;
+        }
+    </style>
+    <script src="../js/lodash.js"></script>
+    <script src="../js/util.js"></script>
+    <script src="canvasLine.js"></script>
+    <script src="canvasCircle.js"></script>
+    <script src="./json.js"></script>
+    <script src="../node_modules/moment/moment.js"></script>
+    
+</head>
+<body>
+    <canvas id="line"></canvas>
+    <canvas id="circle"></canvas>
+    <script>
+        function initCanvas (container) {
+          let canvas = document.getElementById(container);
+          canvas.width = 900;
+          canvas.height = 600;
+          return canvas;
+        }
+        let colorMap = {
+          0: [
+            [0, 'rgba(255, 255, 255, 0)'],
+            [0.9, 'rgba(247, 195, 59, 0.8)'],
+            [1, 'rgba(247, 195, 59, 0.9)']
+          ],
+          1: [
+            [0, 'rgba(255, 255, 255, 0)'],
+            [0.9, 'rgba(226, 101, 48, 0.8)'],
+            [1, 'rgba(226, 101, 48, 0.9)']
+          ],
+          2: [
+            [0, 'rgba(255, 255, 255, 0)'],
+            [0.9, 'rgba(205, 12, 14, 0.8)'],
+            [1, 'rgba(205, 12, 14, 0.9)']
+          ]
+        }
+        let circleColor = ['rgba(247, 195, 59, ', 'rgba(226, 101, 48, ', 'rgba(205, 12, 14, ']
+        dataArr.forEach((item) => {
+          item.from = [100, 100]
+          item.to = [parseInt(Math.random() * 900), parseInt(Math.random() * 600)]
+          item.status = parseInt(Math.random() * 3)
+          item.time = moment(item.call_time).format('YYYY-MM-DD HH:mm:ss')
+        })
+        let o = _.groupBy(dataArr, 'time')
+        let timeArr = []
+        for (let i in o) {
+          timeArr.push(i)
+        }
+        let lineOpt = {
+          canvas: initCanvas('line'),
+          duration: 1500,
+          delay: 0,
+          repeatCount: 1, // Infinity
+          width: 3,
+          color: [
+            [0, 'rgba(255, 255, 255, 0)'],
+            [0.9, 'rgba(5, 255, 234, 0.8)'],
+            [1, 'rgba(255, 255, 255, 0.9)']
+          ]
+        }
+        let circleOpt = {
+          canvas: initCanvas('circle'),
+          duration: 1000,
+          delay: 0,
+          repeatCount: 2
+        }
+        let circlesData = []
+        dataArr.forEach((d, i) => {
+          d.color = colorMap[d.status]
+          circlesData.push({
+            point: d.to,
+            color: circleColor[d.status], // colorMap[d.status]
+            startTime: new Date().getTime(),
+            time: d.time
+          })
+        })
+        let timeObj = _.groupBy(circlesData, 'time')
+        let num = 0
+        let lines = new canvasLine(lineOpt)
+        lines.setData(o[timeArr[0]])
+        let circles = new canvasCircle(circleOpt)
+        circles.setData(timeObj[timeArr[0]])
+        let a = setInterval(() => {
+          num += 1
+          if (num >= timeArr.length - 1) {
+            clearInterval(a)
+          }
+          lines = new canvasLine(lineOpt)
+          lines.setData(o[timeArr[num]])
+          circles = new canvasCircle(circleOpt)
+          circles.setData(timeObj[timeArr[num]])
+        }, 2000)
+    </script>
+</body>
+</html>

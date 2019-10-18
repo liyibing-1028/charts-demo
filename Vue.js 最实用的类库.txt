@@ -1,0 +1,23 @@
+ 1 、Vue-grid-layout
+	GitHub：https://github.com/jbaysolutions/vue-grid-layout
+	介绍：Vue.js 的一个可拖动且可调整大小的网格布局。
+ 2、Vue-virtual-scroller
+	GitHub：https://github.com/Akryum/vue-virtual-scroller
+	介绍：让拥有任何数据量的页面都能平滑滚动。
+ 3、Vue-content-loader
+	GitHub：https://github.com/egoist/vue-content-loader
+	介绍：创建内容加载器的 SVG 组件，例如 Facebook 的卡片加载。
+ 4、Vuikit
+	GitHub：https://github.com/vuikit/vuikit
+	介绍：网站界面的响应式 Vue UI 库。
+ 5、Vue-devtools（v 4.0）
+	GitHub：https://github.com/vuejs/vue-devtools
+	介绍：用于调试 Vue.js 应用程序的 Chrome 扩展开发工具。
+ 6、 Vuex-pathify
+	GitHub：https://github.com/davestewart/vuex-pathify
+	介绍：Vue/Vuex 插件，为 Vuex 存储提供统一的路径语法。
+ 7、程序员必须掌握的 12 个 JavaScript 技能！
+	https://mp.weixin.qq.com/s/pg6J8fFW9WuWVtFL-wujtA
+ 8、走马灯效果
+	https://tympanus.net/codrops/2015/03/10/creative-gooey-effects/
+	https://tympanus.net/Development/AmbientCanvasBackgrounds/index5.html

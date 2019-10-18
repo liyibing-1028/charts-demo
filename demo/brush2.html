@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://unpkg.com/jeezy/lib/jeezy.min.js"></script>
+  <script>
+    var alphabet = "abcdef".split("");
+    var names = ["Ann", "Bob", "Jean", "Chuck", "Denise", "Eric", "Frida", "Greg", "Hillary"];
+
+    var margin = {
+        top: 10,
+        bottom: 10,
+        left: 10,
+        right: 10
+      },
+      width = 600,
+      height = 300;
+
+    var svg = d3.select("body").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var color = d3.scaleOrdinal(["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f"])
+
+    var x = d3.scaleBand()
+      .rangeRound([0, width])
+      .domain(names)
+      .padding(.1);
+
+    var y = d3.scaleLinear()
+      .rangeRound([height, 0]);
+
+    var stack = d3.stack()
+      .keys(alphabet)
+      .order(d3.stackOrderNone)
+      .offset(d3.stackOffsetNone);
+
+    redraw(randomData());
+
+    function redraw(data) {
+
+      // update the y scale
+      y.domain([0, jz.arr.max(data.map(function (d) {
+        return d.sum
+      }))]);
+
+      // each data column (a.k.a "key" or "series") needs to be iterated over
+      alphabet.forEach(function (key, key_index) {
+
+        var bar = svg.selectAll(".bar-" + key)
+          .data(stack(data)[key_index], function (d) {
+            return d.data.name + "-" + key;
+          });
+
+        bar
+          .transition()
+          .attr("x", function (d) {
+            return x(d.data.name);
+          })
+          .attr("y", function (d) {
+            return y(d[1]);
+          })
+          .attr("height", function (d) {
+            return y(d[0]) - y(d[1]);
+          });
+
+        bar.enter().append("rect")
+          .attr("class", function (d) {
+            return "bar bar-" + key;
+          })
+          .attr("x", function (d) {
+            return x(d.data.name);
+          })
+          .attr("y", function (d) {
+            return y(d[1]);
+          })
+          .attr("height", function (d) {
+            return y(d[0]) - y(d[1]);
+          })
+          .attr("width", x.bandwidth())
+          .attr("fill", function (d) {
+            return color(key);
+          })
+
+      });
+
+    }
+
+    function randomData(data) {
+      return names.map(function (d) {
+        var obj = {};
+        obj.name = d;
+        var nums = [];
+        alphabet.forEach(function (e) {
+          var num = jz.num.randBetween(1, 10);
+          obj[e] = num;
+          nums.push(num);
+        });
+        obj.sum = jz.arr.sum(nums);
+        return obj;
+      });
+    }
+  </script>
+</body>
+
+</html>

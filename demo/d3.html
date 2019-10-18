@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+	.selection {
+		stroke: none;
+	}
+	.axis .domain {
+		stroke: none;
+	}
+	.axis .tick line {
+		stroke: #eee;
+	}
+	</style>
+</head>
+<body>
+	
+</body>
+<script src="https://cdn.bootcss.com/lodash.js/4.17.11/lodash.min.js"></script>
+<script src="https://cdn.bootcss.com/d3/5.9.1/d3.min.js"></script>
+<script>
+var data = []
+
+for (var i = 1; i <= 30; i++) {
+	var v = Math.random() * 10
+	data.push({
+		v: v,
+		v1: 10,
+		d: 1552371354700 - 1000 * 60 * 60 * 24 * i,
+		t: i
+	})
+}
+
+var margin = {top: 200, right: 40, bottom: 200, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var x = d3.scaleBand()
+    .domain(_.map(data, 't'))
+    .range([0, width])
+    // .paddingInner(0.2)
+    // 
+var y = d3.scaleLinear()
+    .range([height, 0])
+    .domain([0, d3.max(data, function (d) {
+    	return d.v + d.v1
+    })])
+
+x.invert = (function(){
+    var domain = x.domain()
+    var range = x.range()
+    var scale = d3.scaleQuantize().domain(range).range(domain)
+
+    return function(x){
+        return scale(x)
+    }
+})()
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.append("g")
+    .attr("class", "axis axis--x")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x))
+
+svg.append("g").selectAll(".bar")
+	.data(data)
+	.enter()
+	.append('g')
+	.attr("class", "bar")
+	.each(function (d) {
+		var rect_x = x(d.t) + x.bandwidth() / 4
+		var rect_w = x.bandwidth() / 2
+		var rect_h = y(d.v)
+		var rect_h1 = y(d.v1)
+		var rect_y = height - y(d.v)
+		var rect_y1 = rect_y - rect_h1
+		d3.select(this)
+			.append('rect')
+		    .attr("x", rect_x)
+		    .attr("width", rect_w)
+		    .attr("y", rect_y)
+		    .attr("height", rect_h)
+
+		d3.select(this)
+			.append('rect')
+		    .attr("x", rect_x)
+		    .attr("width", rect_w)
+		    .attr("y", rect_y1)
+		    .attr("height", rect_h1)
+		    .attr('fill', 'red')
+	})
+
+svg.append("g")
+    .attr("class", "brush")
+    .call(d3.brushX()
+        .extent([[0, 0], [width, height]])
+        .on("end", brushended));
+
+function brushended() {
+  if (!d3.event.sourceEvent) return; // Only transition after input.
+  if (!d3.event.selection) return; // Ignore empty selections.
+
+  var extent = d3.event.selection
+  var vextent = extent.map(x.invert);
+
+  if (extent[1] - x(vextent[1]) > x.bandwidth() / 2) {
+  	vextent[1] = x.invert(extent[1] + x.bandwidth() / 2)
+  }
+
+  d3.select(this).transition().call(d3.event.target.move, vextent.map(x))
+}
+
+</script>
+</html>

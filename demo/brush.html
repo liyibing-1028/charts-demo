@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style type="text/css">
+    .box {
+      width: 300px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      margin-bottom: 50px;
+    }
+  </style>
+  <script src="./node_modules/d3/dist/d3.min.js"></script>
+</head>
+
+<body>
+  <script type="text/javascript">
+    var datest = []; //绘制柱形图所用的数据
+    for (let i = 1; i < 32; i ++) {
+      datest.push({
+        name: i,
+        data: parseInt(Math.random() * 280)
+      })
+    }
+    let dataArr = [] // 数据数组
+    let xName = []
+    datest.forEach((item ,index) => {
+      dataArr.push(item.data)
+      xName.push(item.name)
+    })
+    var width = 1100; //svg绘图区域的宽度
+    var height = 300; //svg绘图区域的高度
+    var svg = d3.select('body') //选择<tbody>
+      .append('svg') //在<tbody>中添加<svg>
+      .attr('width', width) //设置<svg>的宽度属性
+      .attr('height', height) //设置<svg>的高度属性
+    var padding = {
+      top: 10,
+      right: 10,
+      bottom: 20,
+      left: 10
+    }; //定义上下左右的内边距
+    //矩形所占的宽度（包括空白）
+    var rectStep = 15;
+    //矩形所占的宽度（不包括空白）
+    var rectWidth = 10;
+
+    //绘制矩形
+    var rect = svg.selectAll('rect')
+      .data(dataArr) //绑定数据
+      .enter()
+      .append('rect') //添加rect元素，使他的数量和数组长度一致
+      .attr('fill', 'steelblue') //设置颜色为steelblue
+      .attr('x', function (d, i) {
+        return padding.left + i * rectStep; //设置矩形的x坐标
+      })
+      .attr('y', function (d) {
+        return height - padding.bottom - d; //设置矩形的y坐标
+      })
+      .attr('width', rectWidth) //设置矩形的宽度
+      .attr('height', function (d) {
+        return d; //设置矩形的高度
+      });
+
+
+    //添加文字部分
+    var text = svg.selectAll('text')
+      .data(xName)
+      .enter()
+      .append('text')
+      .attr('fill', 'black')
+      .attr('font-size', '10px')
+      .attr('text-anchor', 'middle')
+      .attr('x', function (d, i) {
+        return padding.left + i * rectStep;
+      })
+      .attr('y', function (d) {
+        return height - 20;
+      })
+      .attr('dx', rectWidth / 2) //dx是相对于x平移的大小
+      .attr('dy', '1em') //dy是相对于y平移的大小
+      .text(function (d) {
+        return d;
+      });
+
+      var x = d3.scaleTime()
+        .domain([new Date(2019, 3, 12), new Date(2019, 3, 31)])
+        .rangeRound([0, width])
+      // 绘制brush开始
+      svg.append("g")
+          .attr("class", "brush")
+          .call(d3.brushX()
+              .extent([[0, 0], [width, height]])
+              .on("brush", brushed));
+
+      function brushed() {
+        if (d3.event.sourceEvent.type === "brush") return;
+        var d0 = d3.event.selection.map(x.invert),
+            d1 = d0.map(d3.timeDay.round);
+
+        // If empty when rounded, use floor instead.
+        if (d1[0] >= d1[1]) {
+          d1[0] = d3.timeDay.floor(d0[0]);
+          d1[1] = d3.timeDay.offset(d1[0]);
+        }
+
+        d3.select(this).call(d3.event.target.move, d1.map(x));
+      }
+  </script>
+</body>
+
+</html>
